@@ -41,7 +41,7 @@ echo "----------------------------"
 echo -e "${C_WHITE}Kernel Info${C_RESET}"
 echo "----------------------------"
 echo ""
-echo -e "${C_WHITE} Kernel Release:${C_RESET} $(uname -r)"
+echo -e "${C_WHITE}Kernel Release:${C_RESET} $(uname -r)"
 kernelver=$(uname -v)
 kernelyear=$(echo "$kernelver" | rev | cut -d " " -f 1 | rev)
 curryear=$(date +%Y)
@@ -58,6 +58,7 @@ echo -e "${C_WHITE}Disk Usage${C_RESET}"
 echo "----------------------------"
 echo ""
 df -h
+echo ""
 echo ""
 
 	
@@ -194,17 +195,17 @@ if [ "$logFile" == "NOPERMS" ]; then
     echo ""
 else
     sshhist=$(grep -m 15 "Accepted" $logFile)
-	if [ -z "$sshhist" ]; then
-		print_notif "No presence of any SSH authentication history . . . "
+    if [ -z "$sshhist" ]; then
+	print_notif "No presence of any SSH authentication history . . . "
     	echo ""
-	else 
+    else 
     	users=$(echo "$sshhist" | grep -o "for .* from" | cut -d " " -f 2 | sort | uniq)
     	while read -r user; do
         	sshhist=$(echo "$sshhist" | sed "s/${user}/${C_YELLOW_SED}${user}${C_RESET_SED}/g")
     	done <<< "$users"
     	echo -e "$sshhist"
     	note_highlight "accounts trying to authenticate"
-	fi
+    fi
 fi
 
 echo "----------------------------"
