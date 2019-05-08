@@ -34,6 +34,34 @@ function note_highlight {
 }
 
 echo "#################################################"
+echo "#          SECTION: Basic System Info           #"
+echo "#################################################"
+echo ""
+echo "----------------------------"
+echo -e "${C_WHITE}Kernel Info${C_RESET}"
+echo "----------------------------"
+echo ""
+echo -e "${C_WHITE} Kernel Release:${C_RESET} $(uname -r)"
+kernelver=$(uname -v)
+kernelyear=$(echo "$kernelver" | rev | cut -d " " -f 1 | rev)
+curryear=$(date +%Y)
+if [ $(expr $curryear - $kernelyear) -ge 2 ]; then
+    	kernelver=$(echo "$kernelver" | sed "s/${kernelyear}/${C_YELLOW_SED}${kernelyear}${C_RESET_SED}/g")
+	echo -e "${C_WHITE}Kernel Version:${C_RESET} $kernelver"
+	note_highlight "Last kernel update was over 2 years ago"
+else
+	echo -e "${C_WHITE}Kernel Version:${C_RESET} $kernelver"
+	echo ""
+fi
+echo "----------------------------"
+echo -e "${C_WHITE}Disk Usage${C_RESET}"
+echo "----------------------------"
+echo ""
+df -h
+echo ""
+
+	
+echo "#################################################"
 echo "#              SECTION: Networking              #"
 echo "#################################################"
 echo ""
@@ -211,6 +239,7 @@ if [ -r "/etc/sudoers" ]; then
 	cat /etc/sudoeors
 	echo ""
 else
+	print_notif "This could take a few moments . . ."
 	saasFiles=$(find / -not -path "/proc/*" -not -path "/sys/*" -not -path "/dev/*" -not -path "/snap/*" -not -path "/usr/lib/*" -name ".sudo_as_admin_successful" 2>/dev/null)
 	if [ -z "$saasFiles" ]; then
 		print_notif "Could not verify any sudo privileges. You may want to manually check your current account with 'sudo -L'."	
