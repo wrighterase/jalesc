@@ -237,7 +237,7 @@ echo "----------------------------"
 echo ""
 if [ -r "/etc/sudoers" ]; then
 	print_success "/etc/sudoers file is accessible, printing contents . . ."
-	cat /etc/sudoeors
+	cat /etc/sudoers
 	echo ""
 else
 	print_notif "This could take a few moments . . ."
