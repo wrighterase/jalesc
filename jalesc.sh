@@ -207,6 +207,29 @@ else
     	note_highlight "accounts trying to authenticate"
     fi
 fi
+echo "----------------------------"
+echo -e "${C_WHITE}READABLE SSH KEYS${C_RESET}"
+echo "----------------------------"
+echo ""
+sshdirs=$(find / -name .ssh -type d 2>/dev/null)
+sshkeys=$(find / -name *id_rsa* -type f 2>/dev/null)
+if [ "$sshdirs" == "" ]; then
+	print_err "No readable user SSH directories were found . . ."
+else
+	print_notif "User SSH directories that were found and should be considered . . ."
+	while read -r dir; do
+		echo -e "${C_YELLOW}$dir${C_RESET}"
+	done <<< "$sshdirs"
+fi
+
+if [ "$sshkeys" == "" ]; then
+	print_err "No readable SSH keys were found . . ."
+else
+	print_notif "Possible SSH keys were found and should be considered . . ."
+	while read -r key; do
+		echo -e "${C_YELLOW}$key${C_RESET}"
+	done <<< "$sshkeys"
+fi
 
 echo "----------------------------"
 echo -e "${C_WHITE}HOME DIRECTORIES${C_RESET}"
