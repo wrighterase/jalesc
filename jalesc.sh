@@ -220,6 +220,7 @@ else
 	while read -r dir; do
 		echo -e "${C_YELLOW}$dir${C_RESET}"
 	done <<< "$sshdirs"
+	echo ""
 fi
 
 if [ "$sshkeys" == "" ]; then
@@ -229,6 +230,7 @@ else
 	while read -r key; do
 		echo -e "${C_YELLOW}$key${C_RESET}"
 	done <<< "$sshkeys"
+	echo ""
 fi
 
 echo "----------------------------"
